@@ -68,6 +68,7 @@ void solvePossiblyUnderdeterminedLinearSystem(const MatrixA& A, const Vector & b
 		BOOST_AUTO(ax , (A * x).eval());
 		if (!b.isApprox(ax, 1e-5)) {
 			LOG_INFO_STREAM("PointMatcher::icp - encountered almost singular matrix while minimizing point to plane distance. QR solution was too inaccurate. Trying more accurate approach using double precision SVD.");
+			return;
 			x = A.template cast<double>().jacobiSvd(ComputeThinU | ComputeThinV).solve(b.template cast<double>()).template cast<T>();
 			ax = A * x;
 
